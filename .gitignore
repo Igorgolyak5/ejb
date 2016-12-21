@@ -1,0 +1,14 @@
+*.class
+db.properties
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+.idea/
+target/
+out/
+# Package Files #
+*.jar
+*.war
+*.ear
+*.iml
+*.iws
+*.zip
