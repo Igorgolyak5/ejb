@@ -18,18 +18,25 @@ import java.util.logging.Logger;
 public class CatalogService implements CatalogRemote {
 
     private long bookId = 0;
-    private long catalogId = 0;
     private List<Catalog> catalogList;
 
     @PostConstruct
     private void initializeBean(){
         catalogList = new ArrayList<>();
+        Catalog publics = new Catalog();
+        publics.setName("Публичный");
+        publics.setId(1l);
+        Catalog privates = new Catalog();
+        privates.setName("Закрытый");
+        privates.setId(2l);
+        catalogList.add(publics);
+        catalogList.add(privates);
     }
 
     public List<Book> getBooksFromCatalog(Catalog catalog) {
-        for(int i=0;i<catalogList.size();i++) {
-            if (catalogList.get(i).equals(catalog)) {
-                return catalogList.get(i).getBookList();
+        for(Catalog result: catalogList) {
+            if (result.equals(catalog)) {
+                return result.getBookList();
             }
         }
 
@@ -40,6 +47,7 @@ public class CatalogService implements CatalogRemote {
         for(int i=0;i<catalogList.size();i++){
             if(catalogList.get(i).equals(catalog)) {
                 book.setId(bookId);
+                book.setCatalog(catalogList.get(i));
                 bookId++;
                 catalogList.get(i).addBook(book);
                 return book;
@@ -49,17 +57,25 @@ public class CatalogService implements CatalogRemote {
     }
 
     public Book updateBook(Book book, Catalog catalog) {
-        for(int i=0;i<catalogList.size();i++) {
-            Catalog result = catalogList.get(i);
-            if (catalogList.get(i).equals(catalog)) {
-                for(int j=0;j<result.getBookList().size();j++){
-                    if(result.getBookList().get(i).equals(book)){
-                        result.getBookList().set(i, book);
-                        return book;
+        if(book.getCatalog().equals(catalog)) {
+            for (int i = 0; i < catalogList.size(); i++) {
+                Catalog result = catalogList.get(i);
+                if (catalogList.get(i).equals(catalog)) {
+                    for (int j = 0; j < result.getBookList().size(); j++) {
+                        if (result.getBookList().get(i).equals(book)) {
+                            book.setCatalog(result);
+                            result.getBookList().set(i, book);
+                            return book;
+                        }
                     }
                 }
             }
+        } else {
+            removeBookFromCatalog(book, catalog);
+            addBook(book, book.getCatalog());
+            return book;
         }
+
         return null;
     }
 
@@ -73,21 +89,22 @@ public class CatalogService implements CatalogRemote {
         return null;
     }
 
-    public Catalog addCatalog(Catalog catalog){
-        catalog.setId(catalogId);
-        catalogList.add(catalog);
-        catalogId++;
-        return catalog;
+    public List<Book> getAllBooks(){
+        List<Book> result = new ArrayList<>();
+        for(Catalog catalog: catalogList){
+            result.addAll(catalog.getBookList());
+        }
+
+        return result;
     }
 
-    public Catalog removeCatalog(Catalog catalog) {
-        for (Iterator<Catalog> iterator = catalogList.iterator(); iterator.hasNext();) {
-            Catalog result = iterator.next();
-            if (result.equals(catalog)) {
-                iterator.remove();
-                return catalog;
-            }
+    public Book getBookById(long id){
+        List<Book> result = getAllBooks();
+        for(Book book: result){
+            if(book.getId() == id)
+                return book;
         }
+
         return null;
     }
 

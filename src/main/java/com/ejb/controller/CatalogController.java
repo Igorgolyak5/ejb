@@ -26,20 +26,6 @@ public class CatalogController {
     @EJB
     CatalogRemote catalogService;
 
-    @POST @Path("/add/{nameCatalog}")
-    public Catalog addCatalog(@PathParam("nameCatalog") String name){
-        return catalogService.addCatalog(new Catalog(name));
-    }
-
-    @POST @Path("remove")
-    public Response removeCatalog(Catalog catalog) throws CatalogNotFoundException {
-        Catalog result = catalogService.removeCatalog(catalog);
-        if(result == null)
-            throw new CatalogNotFoundException("Catalog was not found");
-
-        return Response.ok().entity(result).build();
-    }
-
     @GET
     public Collection<Catalog> getCatalogs(){
         return catalogService.getCatalogList();
@@ -70,6 +56,24 @@ public class CatalogController {
         List<Book> result = catalogService.getBooksFromCatalog(catalog);
         if(result == null)
             throw new CatalogNotFoundException("Catalog was not found");
+
+        return Response.ok().entity(result).build();
+    }
+
+    @GET @Path("book/all")
+    public Response getAllBooks() throws CatalogNotFoundException {
+        List<Book> result = catalogService.getAllBooks();
+        if(result == null)
+            throw new CatalogNotFoundException("Catalog was not found or book is not");
+
+        return Response.ok().entity(result).build();
+    }
+
+    @GET @Path("book/{id}")
+    public Response getBookById(@PathParam("id") long id) throws CatalogNotFoundException {
+        Book result = catalogService.getBookById(id);
+        if(result == null)
+            throw new CatalogNotFoundException("book was not found");
 
         return Response.ok().entity(result).build();
     }

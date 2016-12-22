@@ -15,8 +15,8 @@ public interface CatalogRemote {
     List<Book> getBooksFromCatalog(Catalog catalog);
     Book addBook(Book book, Catalog catalog);
     Book removeBookFromCatalog(Book book, Catalog catalog);
-    Catalog addCatalog(Catalog catalog);
-    Catalog removeCatalog(Catalog catalog);
-    List<Catalog> getCatalogList();
     Book updateBook(Book book, Catalog catalog);
+    List<Catalog> getCatalogList();
+    List<Book> getAllBooks();
+    Book getBookById(long id);
 }

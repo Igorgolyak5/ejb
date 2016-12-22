@@ -8,23 +8,31 @@
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <script src="resources/js/book.js"></script>
+    <script src="resources/js/moment.js"></script>
     <script>
         $(document).ready(function () {
             $( "#releaseDate" ).datepicker();
             $.getJSON("/ui/catalog/", function(result){
                 $.each(result, function(i, field){
-                    $("select").append("<option value='"+ field.name + "'>" + field.name + "</option>");
+                    $("select").append("<option value='"+ field.id + "'>" + field.name + "</option>");
                 });
+            });
+            var bookId = getParameterByName("bookId");
+            var url = "/ui/catalog/book/"+bookId;
+            $.getJSON(url, function(result){
+                    $("#name").val(result.name);
+                    $("#author").val(result.author);
+                    $("#releaseDate").val(moment.unix((result.releaseDate)).format('MM/DD/YYYY'));
+                    $("#catalog_name").val(result.catalog.id);
             });
         });
     </script>
+    <script src="resources/js/book.js"></script>
 <body>
 <div class="row">
     <div class="col-md-2">
         <ul>
             <li><a href="/ui/">Главная</a></li>
-            <li><a href="/ui/add_catalog.html">Добавить каталог</a></li>
             <li><a href="/ui/add_book.html">Добавить книгу</a></li>
         </ul>
     </div>

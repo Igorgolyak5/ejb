@@ -23,7 +23,7 @@ function addBook() {
         success: function (data) {
             window.setTimeout(function(){
                 // Move to a new location or you can do something else
-                window.location.href = "/ui/list_book.html?id="+catalogName ;
+                window.location.href = "/ui/index.html?id="+catalogName ;
             }, 1000);
         },
         error: function(e) {
@@ -65,11 +65,15 @@ function updateBook() {
     var catalogId = getParameterByName("catalogId");
     var id = getParameterByName("bookId")
     var date = Date.parse($('[name=releaseDate]').val())/1000;
+    var catalogBook = {
+       id: $('#catalog_name').val()
+    };
     var book = {
         id: id,
         name: $('[name=name]').val(),
         author: $('[name=author]').val(),
-        releaseDate: date
+        releaseDate: date,
+        catalog: catalogBook
     };
     var catalog = {
         id: catalogId
@@ -88,7 +92,7 @@ function updateBook() {
         success: function (data) {
             window.setTimeout(function(){
                 // Move to a new location or you can do something else
-                window.location.href = "/ui/list_book.html?id="+catalogId;
+                window.location.href = "/ui/index.html";
             }, 1000);
         },
         error: function(e) {

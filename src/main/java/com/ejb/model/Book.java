@@ -12,6 +12,7 @@ public class Book implements Serializable{
     private String name;
     private String author;
     private Date releaseDate;
+    private Catalog catalog;
 
     public Long getId() {
         return id;
@@ -56,5 +57,13 @@ public class Book implements Serializable{
         if(!id.equals(book.getId()))
             return false;
         return true;
+    }
+
+    public Catalog getCatalog() {
+        return catalog;
+    }
+
+    public void setCatalog(Catalog catalog) {
+        this.catalog = catalog;
     }
 }
