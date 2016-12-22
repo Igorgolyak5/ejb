@@ -1,5 +1,6 @@
 package com.ejb.controller;
 
+import com.ejb.exception.BookNotFoundException;
 import com.ejb.exception.CatalogNotFoundException;
 import com.ejb.model.Book;
 import com.ejb.model.Catalog;
@@ -21,7 +22,7 @@ import java.util.List;
 @Path("/")
 @Produces(MediaType.APPLICATION_JSON+";charset=utf-8")
 @Consumes(MediaType.APPLICATION_JSON)
-public class CatalogController {
+public class BookController {
 
     @EJB
     CatalogRemote catalogService;
@@ -61,19 +62,19 @@ public class CatalogController {
     }
 
     @GET @Path("book/all")
-    public Response getAllBooks() throws CatalogNotFoundException {
+    public Response getAllBooks() throws BookNotFoundException {
         List<Book> result = catalogService.getAllBooks();
         if(result == null)
-            throw new CatalogNotFoundException("Catalog was not found or book is not");
+            throw new BookNotFoundException("Books not found");
 
         return Response.ok().entity(result).build();
     }
 
     @GET @Path("book/{id}")
-    public Response getBookById(@PathParam("id") long id) throws CatalogNotFoundException {
+    public Response getBookById(@PathParam("id") long id) throws BookNotFoundException {
         Book result = catalogService.getBookById(id);
         if(result == null)
-            throw new CatalogNotFoundException("book was not found");
+            throw new BookNotFoundException("book was not found");
 
         return Response.ok().entity(result).build();
     }

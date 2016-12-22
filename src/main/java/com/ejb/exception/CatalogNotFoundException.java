@@ -1,7 +1,5 @@
 package com.ejb.exception;
 
-import javax.ws.rs.NotFoundException;
-
 /**
  * Created by Igor on 19.12.16.
  */

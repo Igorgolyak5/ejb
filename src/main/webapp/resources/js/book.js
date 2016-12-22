@@ -23,7 +23,7 @@ function addBook() {
         success: function (data) {
             window.setTimeout(function(){
                 // Move to a new location or you can do something else
-                window.location.href = "/ui/index.html?id="+catalogName ;
+                window.location.href = "/ui/";
             }, 1000);
         },
         error: function(e) {
