@@ -7,10 +7,12 @@ import com.ejb.model.ErrorMessage;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
+import javax.ws.rs.ext.Provider;
 
 /**
  * Created by Igor on 22.12.16.
  */
+@Provider
 public class BookNotFoundExHandler implements ExceptionMapper<BookNotFoundException> {
 
     @Override

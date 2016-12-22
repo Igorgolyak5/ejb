@@ -1,6 +1,5 @@
 package com.ejb.service;
 
-import com.ejb.exception.CatalogNotFoundException;
 import com.ejb.model.Book;
 import com.ejb.model.Catalog;
 
